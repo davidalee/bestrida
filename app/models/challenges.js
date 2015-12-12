@@ -65,6 +65,8 @@ module.exports.getChallenges = function (user, status, callback) {
     });
 };
 
+// TODO: Doesn't sort by date, may need to reference ObjectId's date prop to do this)
+// TODO: Extract challengers from the list of challenges (and handle duplicates)
 module.exports.getRecentChallengers = function (user, callback) {
   // Find all challenges for a certain user
   Challenge.find()
@@ -77,7 +79,7 @@ module.exports.getRecentChallengers = function (user, callback) {
       }
     ])
     .sort({ date: 'asc' })
-    .limit(10)
+    .limit(5)
     .exec(function (err, challenges) {
       if (err) {
         callback(err);
