@@ -41,6 +41,7 @@ module.exports.saveFriends = function (user, friends) {
   });
 };
 
+// Helper functions
 function saveAthlete (user, callback) {
   // TODO: create a default photo and save the path to defaultPhoto var
   var defaultPhoto = '/some/file/path.jpg';

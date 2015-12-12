@@ -85,12 +85,26 @@ module.exports = function(app, express) {
       })
     });
 
+  // Create a challenge
   apiRouter.route('/challenges/create')
     .post(function (req, res) {
       var challenge = req.body;
       Challenges.create(challenge);
       // TODO: What do we do with user after challenge has been created?
       // res.send('challenge received');
+    });
+
+  // Get an array of recent challengers
+  apiRouter.route('/recent_challengers/:user_id')
+    .get(function (req, res) {
+      var userId = req.params.user_id;
+      Challenges.getRecentChallengers(userId, function (err, challengers) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.json(challengers);
+        }
+      });
     });
 
   // specific athlete route

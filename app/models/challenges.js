@@ -7,7 +7,7 @@ var challengeSchema = mongoose.Schema({
   challengeeId: { type: Number, required: true },
   challengerTime: Number,
   challengeeTime: Number,
-  status: { type: String, default: 'pending' }
+  status: { type: String, default: 'pending' },
 });
 
 var Challenge = mongoose.model('Challenge', challengeSchema);
@@ -63,4 +63,29 @@ module.exports.getChallenges = function (user, status, callback) {
         callback(null, challenges);
       }
     });
+};
+
+module.exports.getRecentChallengers = function (user, callback) {
+  // Find all challenges for a certain user
+  Challenge.find()
+    .and([
+      {
+        $or: [
+          { challengerId: user },
+          { challengeeId: user }
+        ]
+      }
+    ])
+    .sort({ date: 'asc' })
+    .limit(10)
+    .exec(function (err, challenges) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, challenges);
+      }
+    });
+  // Sort them in descending order (most recent first)
+  // Pull the userId's of the other user in the challenges (not our user)
+
 };
